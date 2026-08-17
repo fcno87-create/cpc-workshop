@@ -147,14 +147,17 @@
   .linklist a:hover{border-color:var(--peri);color:var(--peri)}
 
   footer{border-top:1px solid var(--hair);padding:34px 26px;text-align:center;font-family:"Space Grotesk",sans-serif;font-size:11px;letter-spacing:.1em;color:var(--ink-soft)}
-  .demo-tag{position:fixed;bottom:12px;left:12px;z-index:200;background:var(--ink);color:var(--cloud);font-family:"Space Grotesk",sans-serif;font-size:10px;letter-spacing:.1em;padding:6px 11px;border-radius:100px;opacity:.85}
+  .fab{position:fixed;right:16px;bottom:16px;z-index:200;display:inline-flex;align-items:center;gap:8px;font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;font-size:15px;background:var(--peri);color:#fff;padding:13px 22px;border-radius:100px;box-shadow:0 10px 26px -6px rgba(28,43,71,.5);transition:opacity .4s,transform .35s,background .35s}
+  .fab:hover{background:var(--ink);transform:translateY(-2px)}
+  .fab.hide{opacity:0;pointer-events:none;transform:translateY(12px)}
+  @media(max-width:560px){.fab{font-size:14px;padding:12px 18px;right:12px;bottom:12px}}
 
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.signal path{stroke-dashoffset:0}.hero .word,.eyebrow,.hero h2,.herometa,.scrollcue,.hero-art{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 <div class="cursor" id="cursor"></div>
-<div class="demo-tag">DEMO ・ 日付/QR/申込URLは仮</div>
+<a class="fab" id="fab" href="#">応募する →</a>
 
 <nav id="nav">
   <a href="#top" class="brand">CPC WORKSHOP 2026</a>
@@ -345,6 +348,7 @@ document.getElementById('h-date').textContent = CONFIG.dateLabel;
 document.getElementById('h-venue').textContent = CONFIG.venue;
 document.getElementById('d-date').textContent = CONFIG.dateLabel;
 (function(){const b=document.getElementById('applybtn');b.href=CONFIG.applyUrl;if(/^https?:/.test(CONFIG.applyUrl)){b.target="_blank";b.rel="noopener";}})();
+(function(){const fab=document.getElementById('fab');if(!fab)return;fab.href=CONFIG.applyUrl;if(/^https?:/.test(CONFIG.applyUrl)){fab.target="_blank";fab.rel="noopener";}const ap=document.getElementById('apply');if(ap&&'IntersectionObserver'in window){new IntersectionObserver(es=>es.forEach(e=>fab.classList.toggle('hide',e.isIntersecting)),{threshold:.2}).observe(ap);}})();
 document.getElementById('org-name').textContent = CONFIG.orgName;
 const cm=CONFIG.committee||[];
 document.getElementById('committee-list').innerHTML = cm.length
