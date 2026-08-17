@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPC Student Workshop 2026 — #学融研究の最前線</title>
+<meta name="description" content="次世代研究者のための研究ワークショップ。集合的予測符号化（CPC）を軸に、分野を越えて出会い議論する CPC Student Workshop 2026。オンライン開催。">
+<meta property="og:title" content="CPC Student Workshop 2026 — #学融研究の最前線">
+<meta property="og:description" content="次世代研究者のための研究ワークショップ。オンライン開催。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="ogp.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--cloud:#F0EEE9;--cloud-2:#E9E7E0;--ink:#1C2B47;--ink-soft:#33405b;--peri:#7C78D4;--peri-soft:#D9D7F0;--hair:#D6D3CA;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--cloud);color:var(--ink);font-family:"Noto Sans JP",sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  section{padding:clamp(78px,13vw,150px) 26px;position:relative;scroll-margin-top:64px}
+  .container{max-width:1000px;margin:0 auto}
+
+  .cursor{position:fixed;top:0;left:0;width:26px;height:26px;border:1.5px solid var(--peri);border-radius:50%;pointer-events:none;z-index:999;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s,opacity .3s;mix-blend-mode:multiply;opacity:0}
+  .cursor.dot{width:7px;height:7px;background:var(--peri);border-color:transparent}
+  @media (hover:hover) and (pointer:fine){.cursor{opacity:1}body,a,button{cursor:none}}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:14px 22px;transition:.5s;background:rgba(240,238,233,.85);backdrop-filter:blur(10px);border-bottom:1px solid transparent}
+  nav.show{border-bottom-color:var(--hair)}
+  nav .brand{font-family:"Space Grotesk",sans-serif;font-weight:600;letter-spacing:.12em;font-size:12px}
+  nav .links{display:flex;gap:22px;align-items:center}
+  nav .links a{font-size:13px;font-weight:500;transition:.3s}
+  nav .links a:hover{color:var(--peri)}
+  nav .cta{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:12px;letter-spacing:.06em;border:1.5px solid var(--ink);border-radius:100px;padding:7px 15px;transition:.3s}
+  nav .cta:hover{background:var(--ink);color:var(--cloud)}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:6px}
+  .burger span{width:22px;height:2px;background:var(--ink);transition:.3s}
+  .mobile-menu{position:fixed;inset:0;z-index:99;background:var(--cloud);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:22px;transform:translateY(-100%);transition:.5s cubic-bezier(.5,0,.2,1)}
+  .mobile-menu.open{transform:translateY(0)}
+  .mobile-menu a{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;font-size:26px}
+  .mobile-menu a .en{display:block;font-family:"Space Grotesk",sans-serif;font-size:11px;letter-spacing:.2em;color:var(--peri);font-weight:500;margin-top:2px}
+  @media(max-width:760px){nav .links{display:none}.burger{display:flex}}
+
+  .hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:0 26px;position:relative;overflow:hidden}
+  .hero-art{position:absolute;right:0;bottom:9%;width:min(52%,620px);aspect-ratio:700/630;z-index:1;pointer-events:none;animation:float 8s ease-in-out infinite}
+  .hero-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;transition:opacity .8s}
+  .hero-art canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+  .hero-inner{position:relative;z-index:2;max-width:1000px;margin:0 auto;width:100%}
+  .eyebrow{font-family:"Space Grotesk",sans-serif;font-weight:600;letter-spacing:.36em;text-transform:uppercase;font-size:clamp(10px,2.4vw,14px);color:var(--peri);opacity:0;transform:translateY(16px);animation:rise .9s .2s forwards}
+  .hero h1{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:clamp(40px,10vw,108px);line-height:1.05;margin:16px 0 6px;letter-spacing:.005em}
+  .hero h1 .hl{background:linear-gradient(transparent 60%,var(--peri-soft) 60%);padding:0 .08em}
+  .hero h1 .arrow{font-weight:400;font-size:.5em;vertical-align:middle}
+  .hero .word{display:inline-block;opacity:0;transform:translateY(28px);animation:rise .95s forwards}
+  .hero .w1{animation-delay:.35s}.hero .w2{animation-delay:.5s}
+  .hero h2{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;font-size:clamp(16px,4vw,30px);margin-top:8px;opacity:0;transform:translateY(20px);animation:rise .9s .7s forwards}
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+  .herometa{margin-top:28px;display:flex;gap:26px;flex-wrap:wrap;opacity:0;animation:rise .9s .85s forwards}
+  .herometa .k{font-family:"Space Grotesk",sans-serif;font-size:10px;letter-spacing:.2em;color:var(--peri);text-transform:uppercase}
+  .herometa .v{font-family:"Space Grotesk",sans-serif;font-size:clamp(16px,3vw,22px);font-weight:600;margin-top:3px}
+  .scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:2;font-family:"Space Grotesk",sans-serif;font-size:11px;letter-spacing:.24em;color:var(--ink-soft);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:rise 1s 1.1s forwards}
+  .scrollcue .bar{width:1px;height:36px;background:var(--hair);position:relative;overflow:hidden}
+  .scrollcue .bar::after{content:"";position:absolute;top:-40%;left:0;width:100%;height:40%;background:var(--peri);animation:drop 1.8s linear infinite}
+  @keyframes drop{to{top:100%}}
+  @media(max-width:760px){.hero-art{width:88%;right:-8%;bottom:auto;top:7%;opacity:.3}}
+
+  .reveal{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .sec-lbl{font-family:"Space Grotesk",sans-serif;letter-spacing:.28em;font-size:12px;color:var(--peri);margin-bottom:22px}
+
+  .concept .big{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:clamp(26px,6vw,54px);line-height:1.32;letter-spacing:.01em}
+  .concept .big em{font-style:normal;color:var(--peri)}
+  .signal{width:100%;height:56px;margin:34px 0}
+  .signal path{stroke:var(--peri);stroke-width:1.5;fill:none;stroke-dasharray:1200;stroke-dashoffset:1200;transition:stroke-dashoffset 2.2s ease}
+  .signal.in path{stroke-dashoffset:0}
+  .concept p{font-size:clamp(14px,2.3vw,17px);color:var(--ink-soft);max-width:640px;margin-top:6px}
+  .fields{display:flex;flex-wrap:wrap;gap:9px;margin-top:34px}
+  .fields span{font-size:12px;border:1px solid var(--hair);border-radius:100px;padding:6px 14px;color:var(--ink-soft);transition:.3s}
+  .fields span:hover{border-color:var(--peri);color:var(--peri)}
+
+  .head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--hair);padding-bottom:16px;margin-bottom:4px;flex-wrap:wrap;gap:8px}
+  .head h3{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:clamp(24px,5vw,40px)}
+  .head .en{font-family:"Space Grotesk",sans-serif;letter-spacing:.22em;font-size:12px;color:var(--peri)}
+  .card{display:grid;grid-template-columns:auto 1fr auto;gap:clamp(16px,4vw,36px);align-items:center;padding:clamp(24px,5vw,40px) 4px;border-bottom:1px solid var(--hair);transition:.5s;position:relative}
+  .card::before{content:"";position:absolute;inset:0 -26px;background:var(--peri-soft);opacity:0;transition:.5s;z-index:-1;border-radius:8px}
+  .card:hover::before{opacity:.4}.card:hover{padding-left:16px}
+  .mono{width:clamp(64px,14vw,104px);height:clamp(64px,14vw,104px);border-radius:50%;background:var(--ink);color:var(--cloud);display:flex;align-items:center;justify-content:center;font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:clamp(20px,4.5vw,32px);transition:.5s;flex:none;overflow:hidden}
+  .mono img{width:100%;height:100%;object-fit:cover}
+  .card:hover .mono{background:var(--peri)}
+  .card .tm{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:12px;color:var(--peri);letter-spacing:.06em;margin-bottom:8px}
+  .card .talk{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;font-size:clamp(15px,3vw,21px);line-height:1.4}
+  .card .nm{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;font-size:clamp(16px,3.2vw,22px);margin-top:10px}
+  .card .rome{font-family:"Space Grotesk",sans-serif;letter-spacing:.14em;font-size:11px;opacity:.6;margin-top:3px}
+  .card .role{color:var(--peri);font-size:clamp(11px,2.2vw,13px);margin-top:6px}
+  .card .idx{font-family:"Space Grotesk",sans-serif;font-size:14px;color:var(--hair);font-weight:600}
+  .card.has-link{display:grid}
+  .card .visit{font-family:"Space Grotesk",sans-serif;font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--peri);border:1px solid var(--peri);border-radius:100px;padding:2px 9px;margin-left:12px;vertical-align:middle;opacity:0;transition:.4s;white-space:nowrap}
+  .card.has-link:hover .visit{opacity:1}
+  .card.has-link:hover .idx{color:var(--peri)}
+  @media(max-width:560px){.card{grid-template-columns:auto 1fr}.card .idx{display:none}}
+
+  .tt{margin-top:8px}
+  .tt .row{display:grid;grid-template-columns:130px 1fr;gap:20px;padding:16px 4px;border-bottom:1px solid var(--hair);transition:.3s}
+  .tt .row:hover{background:var(--cloud-2)}
+  .tt .t{font-family:"Space Grotesk",sans-serif;font-weight:600;color:var(--peri)}
+  .tt .d{font-weight:500}
+  .tt .d small{display:block;color:var(--ink-soft);font-weight:400;font-size:13px;margin-top:2px}
+  .tt .tbd .d{color:var(--ink-soft);font-style:italic}
+  @media(max-width:560px){.tt .row{grid-template-columns:92px 1fr;gap:12px}}
+  .ttnote{font-size:13px;color:var(--ink-soft);margin-top:18px;padding:14px 18px;background:var(--cloud-2);border-radius:10px;border-left:3px solid var(--peri)}
+
+  .details{background:var(--ink);color:var(--cloud);border-radius:clamp(14px,3vw,26px);padding:clamp(44px,8vw,84px) clamp(26px,6vw,68px)}
+  .details .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,56px)}
+  @media(max-width:620px){.details .grid{grid-template-columns:1fr;gap:32px}}
+  .details .k{font-family:"Space Grotesk",sans-serif;letter-spacing:.24em;font-size:11px;color:var(--peri-soft);text-transform:uppercase;margin-bottom:10px}
+  .details .v{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;font-size:clamp(20px,4vw,30px)}
+  .details .v small{font-weight:400;font-size:.62em;opacity:.8}
+  .countdown{display:flex;gap:clamp(14px,3vw,28px);margin-top:6px}
+  .countdown .n{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:clamp(28px,7vw,52px);line-height:1;color:#fff;font-variant-numeric:tabular-nums}
+  .countdown .u{font-size:11px;letter-spacing:.2em;color:var(--peri-soft);margin-top:8px;text-transform:uppercase}
+  .applybtn{display:inline-flex;align-items:center;gap:10px;margin-top:26px;font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;font-size:17px;background:var(--peri);color:#fff;padding:15px 34px;border-radius:100px;transition:.4s}
+  .applybtn:hover{background:#fff;color:var(--ink);transform:translateY(-2px)}
+  .qr{width:92px;height:92px;border-radius:8px;background:#fff;padding:6px;flex:none;object-fit:contain;display:block}
+
+  .arch{display:grid;gap:16px;margin-top:8px}
+  .arch a{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 24px;border:1px solid var(--hair);border-radius:14px;transition:.4s;flex-wrap:wrap}
+  .arch a:hover{border-color:var(--peri);background:var(--cloud-2);transform:translateX(4px)}
+  .arch .yr{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:clamp(28px,6vw,42px);color:var(--ink)}
+  .arch .mid{flex:1;min-width:200px}
+  .arch .ed{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;font-size:17px}
+  .arch .sp{color:var(--ink-soft);font-size:13px;margin-top:4px}
+  .arch .go{font-family:"Space Grotesk",sans-serif;font-size:12px;letter-spacing:.1em;color:var(--peri)}
+
+  .org p{font-size:15px;color:var(--ink-soft);max-width:640px}
+  .committee{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;margin-top:8px}
+  .committee .m{padding:18px 20px;border:1px solid var(--hair);border-radius:12px;transition:.3s}
+  .committee .m:hover{border-color:var(--peri)}
+  .committee .r{font-family:"Space Grotesk",sans-serif;font-size:11px;letter-spacing:.16em;color:var(--peri);text-transform:uppercase;margin-bottom:6px}
+  .committee .n{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;font-size:17px}
+  .committee .a{font-size:12px;color:var(--ink-soft);margin-top:3px}
+  .committee a.m{display:block}
+  .committee .m .visit{font-family:"Space Grotesk",sans-serif;font-size:10px;font-weight:600;letter-spacing:.06em;color:var(--peri);border:1px solid var(--peri);border-radius:100px;padding:1px 8px;margin-left:9px;vertical-align:middle;opacity:0;transition:.35s;white-space:nowrap}
+  .committee a.m:hover .visit{opacity:1}
+  .linklist{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+  .linklist a{font-size:13px;border:1px solid var(--hair);border-radius:100px;padding:9px 18px;transition:.3s}
+  .linklist a:hover{border-color:var(--peri);color:var(--peri)}
+
+  footer{border-top:1px solid var(--hair);padding:34px 26px;text-align:center;font-family:"Space Grotesk",sans-serif;font-size:11px;letter-spacing:.1em;color:var(--ink-soft)}
+  .demo-tag{position:fixed;bottom:12px;left:12px;z-index:200;background:var(--ink);color:var(--cloud);font-family:"Space Grotesk",sans-serif;font-size:10px;letter-spacing:.1em;padding:6px 11px;border-radius:100px;opacity:.85}
+
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.signal path{stroke-dashoffset:0}.hero .word,.eyebrow,.hero h2,.herometa,.scrollcue,.hero-art{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="demo-tag">DEMO ・ 日付/QR/申込URLは仮</div>
+
+<nav id="nav">
+  <a href="#top" class="brand">CPC WORKSHOP 2026</a>
+  <div class="links">
+    <a href="#concept">コンセプト</a>
+    <a href="#speakers">招待講演</a>
+    <a href="#timetable">タイムテーブル</a>
+    <a href="#apply">参加方法</a>
+    <a href="#archive">アーカイブ</a>
+    <a href="#apply" class="cta">応募する</a>
+  </div>
+  <button class="burger" id="burger" aria-label="menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mm">
+  <a href="#concept">コンセプト<span class="en">CONCEPT</span></a>
+  <a href="#speakers">招待講演<span class="en">INVITED TALKS</span></a>
+  <a href="#timetable">タイムテーブル<span class="en">TIMETABLE</span></a>
+  <a href="#apply">参加方法<span class="en">APPLY</span></a>
+  <a href="#archive">アーカイブ<span class="en">ARCHIVE</span></a>
+</div>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-art"><img src="landscape-hero.jpg" alt="マルチタイムランドスケープ（記号創発システム論）"></div>
+  <div class="hero-inner">
+    <div class="eyebrow" id="h-eyebrow">CPC Student Workshop 2026</div>
+    <h1><span class="word w1 hl">#学融研究</span><br><span class="word w2">の最前線</span> <span class="arrow">へ</span></h1>
+    <h2 id="h-concept">次世代研究者のための研究ワークショップ</h2>
+    <div class="herometa">
+      <div><div class="k">Date</div><div class="v" id="h-date">8 / 25 (火)</div></div>
+      <div><div class="k">Venue</div><div class="v" id="h-venue">Online・Zoom</div></div>
+    </div>
+  </div>
+  <div class="scrollcue">SCROLL<div class="bar"></div></div>
+</header>
+
+<!-- CONCEPT -->
+<section class="concept" id="concept">
+  <div class="container">
+    <div class="sec-lbl reveal">01 — CONCEPT</div>
+    <div class="big reveal">分野の境界を越えて、<br><em>次世代の研究者</em>が育ち合う場。</div>
+    <svg class="signal reveal" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0 30 L280 30 L300 8 L318 52 L336 20 L354 40 L372 30 L640 30 L660 12 L678 48 L696 30 L1200 30"/></svg>
+    <p class="reveal">「学融（がくゆう）」——分野を越えて融け合う研究の最前線へ。CPC Student Workshop は、集合的予測符号化（CPC）を軸に、次世代の研究者が分野を越えて出会い、議論し、育ち合うための研究ワークショップです。学生による、学生のための会として毎年オンラインで開催します。</p>
+    <div class="fields reveal" id="fields"></div>
+  </div>
+</section>
+
+<!-- SPEAKERS -->
+<section class="speakers" id="speakers">
+  <div class="container">
+    <div class="head reveal"><h3>招待講演</h3><div class="en">INVITED TALKS</div></div>
+    <div id="speaker-list"></div>
+  </div>
+</section>
+
+<!-- TIMETABLE -->
+<section id="timetable">
+  <div class="container">
+    <div class="head reveal"><h3>タイムテーブル</h3><div class="en">TIMETABLE</div></div>
+    <div class="tt reveal" id="tt"></div>
+    <div class="ttnote reveal" id="ttnote"></div>
+  </div>
+</section>
+
+<!-- APPLY -->
+<section id="apply">
+  <div class="container">
+    <div class="details reveal">
+      <div class="grid">
+        <div>
+          <div class="k">Date</div>
+          <div class="v" id="d-date">8 / 25 (火)</div>
+          <div class="countdown" id="cd">
+            <div><div class="n" id="cd-d">–</div><div class="u">Days</div></div>
+            <div><div class="n" id="cd-h">–</div><div class="u">Hours</div></div>
+            <div><div class="n" id="cd-m">–</div><div class="u">Min</div></div>
+          </div>
+          <a class="applybtn" id="applybtn" href="#">応募フォームへ →</a>
+        </div>
+        <div>
+          <div class="k">Venue</div>
+          <div class="v">ONLINE<br><small>Zoom開催</small></div>
+          <div style="margin-top:24px"><div class="k">Apply</div>
+            <div style="display:flex;gap:16px;align-items:center">
+              <img class="qr" src="qr.png" alt="応募フォームQRコード">
+              <div style="font-size:13px;line-height:1.6">QRまたはフォームから<br>お申し込みください</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHIVE -->
+<section id="archive">
+  <div class="container">
+    <div class="head reveal"><h3>過去の開催</h3><div class="en">ARCHIVE</div></div>
+    <div class="arch reveal" id="arch"></div>
+  </div>
+</section>
+
+<!-- COMMITTEE -->
+<section id="committee">
+  <div class="container">
+    <div class="head reveal"><h3>実行委員名簿</h3><div class="en">COMMITTEE</div></div>
+    <div class="committee reveal" id="committee-list"></div>
+  </div>
+</section>
+
+<!-- ORG -->
+<section class="org" id="org">
+  <div class="container">
+    <div class="sec-lbl reveal">RUN BY</div>
+    <p class="reveal" id="org-name">CPC Student Workshop 運営委員会</p>
+    <div class="linklist reveal" id="links"></div>
+  </div>
+</section>
+
+<footer>CPC STUDENT WORKSHOP 2026 ・ #学融研究の最前線 ・ ONLINE</footer>
+
+<script>
+/* =====================================================================
+   ▼▼▼ 毎年ここだけ編集すればOK ▼▼▼
+
+   ● リンクの足し方（重要）：
+     - 外部サイトへのリンク → links 配列に { label:"表示名", url:"https://…" } を足すだけ
+     - ページ内の別セクションへ飛ばす → url を "#concept" のように # ＋セクションIDに
+     - 実在URL（http/https）は自動で別タブ表示になります
+   ● 過去回を残す → archive 配列の先頭に1件足す（過去一覧が自動で伸びます）
+   ● 写真を入れる → speakers の photo に画像ファイル名（同じフォルダに置く）
+===================================================================== */
+const CONFIG = {
+  year: 2026,
+  concept: "次世代研究者のための研究ワークショップ",
+  date: "2026-08-25T10:30:00+09:00",   // カウントダウン基準（開始時刻は仮に10:30）
+  dateLabel: "8 / 25 (火)",
+  venue: "Online・Zoom",
+  applyUrl: "https://forms.gle/eBYMkyTTLbkBhbLS6",   // ← 申込フォーム
+
+  speakers: [
+    { time:"10:30–11:30", photo:"maruyama.jpg", mono:"RM",
+      name:"丸山 隆一", rome:"Ryuichi Maruyama", role:"", url:"https://rmaruy3.github.io/",
+      talk:"「科学コミュニケーターによる、非研究者のためのSEST/CPC解題」" },
+    { time:"11:40–12:40", photo:"hayashi.jpg", mono:"YH",
+      name:"林 祐輔", rome:"Yusuke Hayashi", role:"", url:"https://hayashiyus.jp/",
+      talk:"「LLMエージェントとCPC：AGI誕生後の記号の行方を考える」" },
+    // ← 登壇者を追加するときはここに { … } を足す
+  ],
+
+  // 確定している枠だけ。全体スケジュールが未定なので tbd:true の行で「準備中」を表示
+  timetable: [
+    { time:"10:30–11:30", title:"招待講演①：丸山 隆一", note:"科学コミュニケーターによる、非研究者のためのSEST/CPC解題" },
+    { time:"11:40–12:40", title:"招待講演②：林 祐輔", note:"LLMエージェントとCPC：AGI誕生後の記号の行方を考える" },
+    { time:"TBD", title:"学生セッション ほか", note:"", tbd:true },
+  ],
+  timetableNote: "全体スケジュール（開始時刻・学生セッション等）は準備中です。登壇者の追加に合わせて随時更新します。",
+
+  fields: ["言語創発","記号創発","言語進化","AIアラインメント","認知発達ロボティクス","マルチエージェントシステム","科学発見の自動化","記号接地問題","記号論／プラグマティズム","ネオ・サイバネティクス","法／倫理／規範システム","協力行動の数理","情報の経済学","人工生命","計算論的精神医学","心の哲学","科学哲学","計算言語学"],
+
+  archive: [
+    { year:2025, edition:"第1回", speakers:"谷口 忠大／佐治 信郎",
+      note:"集合的予測符号化仮説（CPC）の射程／記号創発としての言語習得",
+      url:"https://sites.google.com/view/cpc-student-workshop-2025/ホーム" },
+  ],
+
+  orgName: "CPC Student Workshop 運営委員会",
+
+  // ▼ 昨年度の実行委員名簿をここに貼ってください（role=役職 / name=氏名 / affil=所属 / url=任意リンク）
+  //   例: { role:"実行委員長", name:"○○ ○○", affil:"○○大学" },
+  committee: [
+    { role:"実行委員長", name:"堀江 孝文", affil:"京都大学" },
+    { role:"副実行委員長", name:"片岩 拓也", affil:"静岡大学", url:"https://hosi121.github.io/portfolio/" },
+    { role:"広報・クリエイティブ", name:"久保田 はな", affil:"立命館大学" },
+    { role:"実行委員", name:"岡本 晃朋", affil:"同志社大学", url:"https://researchmap.jp/akitookamoto" },
+  ],
+
+  links: [
+    { label:"記号創発システム論（SES）", url:"https://symbol-emergence.net/en/" },
+    { label:"実行委員名簿", url:"#committee" },
+  ]
+};
+/* ▲▲▲ 編集ここまで ▲▲▲ */
+
+document.getElementById('h-eyebrow').textContent = `CPC Student Workshop ${CONFIG.year}`;
+document.getElementById('h-concept').textContent = CONFIG.concept;
+document.getElementById('h-date').textContent = CONFIG.dateLabel;
+document.getElementById('h-venue').textContent = CONFIG.venue;
+document.getElementById('d-date').textContent = CONFIG.dateLabel;
+(function(){const b=document.getElementById('applybtn');b.href=CONFIG.applyUrl;if(/^https?:/.test(CONFIG.applyUrl)){b.target="_blank";b.rel="noopener";}})();
+document.getElementById('org-name').textContent = CONFIG.orgName;
+const cm=CONFIG.committee||[];
+document.getElementById('committee-list').innerHTML = cm.length
+  ? cm.map(m=>{
+      const ext=m.url&&/^https?:/.test(m.url);
+      const tag=ext?'a':'div', attr=ext?`href="${m.url}" target="_blank" rel="noopener"`:'';
+      return `<${tag} class="m${ext?' has-link':''}" ${attr}><div class="r">${m.role||''}</div><div class="n">${m.name}${ext?'<span class="visit">HP ↗</span>':''}</div>${m.affil?`<div class="a">${m.affil}</div>`:''}</${tag}>`;
+    }).join('')
+  : '<p style="color:var(--ink-soft);font-size:14px">※ 実行委員名簿は準備中です。</p>';
+document.getElementById('ttnote').textContent = CONFIG.timetableNote;
+
+document.getElementById('fields').innerHTML = CONFIG.fields.map(f=>`<span>${f}</span>`).join('');
+
+document.getElementById('speaker-list').innerHTML = CONFIG.speakers.map((s,i)=>{
+  const ext = s.url && /^https?:/.test(s.url);
+  const tag = ext ? 'a' : 'div';
+  const attr = ext ? `href="${s.url}" target="_blank" rel="noopener"` : '';
+  return `
+  <${tag} class="card reveal${ext?' has-link':''}" ${attr}>
+    <div class="mono">${s.photo?`<img src="${s.photo}" alt="${s.name}">`:s.mono}</div>
+    <div>
+      ${s.time?`<div class="tm">${s.time}</div>`:''}
+      <div class="talk">${s.talk}</div>
+      <div class="nm">${s.name}${ext?'<span class="visit">HP ↗</span>':''}</div>
+      <div class="rome">${s.rome}</div>
+      ${s.role?`<div class="role">${s.role}</div>`:''}
+    </div>
+    <div class="idx">${String(i+1).padStart(2,'0')}</div>
+  </${tag}>`;}).join('');
+
+document.getElementById('tt').innerHTML = CONFIG.timetable.map(r=>`
+  <div class="row ${r.tbd?'tbd':''}"><div class="t">${r.time}</div><div class="d">${r.title}${r.note?`<small>${r.note}</small>`:''}</div></div>`).join('');
+
+document.getElementById('arch').innerHTML = CONFIG.archive.map(a=>{
+  const ext = a.url && a.url!=='#' && /^https?:/.test(a.url);
+  return `<a href="${a.url}" ${ext?'target="_blank" rel="noopener"':''}>
+    <div class="yr">${a.year}</div>
+    <div class="mid"><div class="ed">${a.edition}</div><div class="sp">招待講演：${a.speakers}<br>${a.note}</div></div>
+    <div class="go">VIEW →</div></a>`;}).join('');
+
+document.getElementById('links').innerHTML = CONFIG.links.map(l=>{
+  const ext = l.url && l.url!=='#' && /^https?:/.test(l.url);
+  return `<a href="${l.url}" ${ext?'target="_blank" rel="noopener"':''}>${l.label} ↗</a>`;}).join('');
+
+const cursor=document.getElementById('cursor');
+if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+  addEventListener('mousemove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px'});
+  document.querySelectorAll('a,button,.card').forEach(el=>{el.onmouseenter=()=>cursor.classList.add('dot');el.onmouseleave=()=>cursor.classList.remove('dot')});
+}
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('show',scrollY>window.innerHeight*.7));
+const burger=document.getElementById('burger'),mm=document.getElementById('mm');
+burger.onclick=()=>mm.classList.toggle('open');
+mm.querySelectorAll('a').forEach(a=>a.onclick=()=>mm.classList.remove('open'));
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.reveal,.signal').forEach(el=>io.observe(el));
+
+const target=new Date(CONFIG.date);
+function tick(){
+  const diff=target-new Date();
+  if(diff<=0){document.getElementById('cd').innerHTML='<div><div class="n">開催中／終了</div></div>';return}
+  const d=Math.floor(diff/864e5),h=Math.floor(diff%864e5/36e5),m=Math.floor(diff%36e5/6e4);
+  document.getElementById('cd-d').textContent=d;
+  document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
+}
+tick();setInterval(tick,1000);
+</script>
+
+<!-- ▼ ヒーローのインタラクティブ地形（マウスで山が歪む）。非対応時は静止画にフォールバック ▼ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  const host=document.querySelector('.hero-art');
+  const img=host?host.querySelector('img'):null;
+  const reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(!host || reduce || typeof THREE==='undefined'){ return; }        // 静止画のまま
+  let W=host.clientWidth, H=host.clientHeight;
+  if(!W||!H){ return; }
+
+  let renderer;
+  try{
+    const canvas=document.createElement('canvas');
+    host.appendChild(canvas);
+    renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+  }catch(e){ return; }                                                 // WebGL不可→静止画
+  renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+  renderer.setSize(W,H,false);
+  if(img) img.style.opacity=0;                                         // 3Dに置き換え
+
+  const scene=new THREE.Scene();
+  let d=3.25, aspect=W/H;
+  const cam=new THREE.OrthographicCamera(-d*aspect,d*aspect,d,-d,0.1,100);
+  cam.position.set(8,6.4,8); cam.lookAt(0,0,0);
+
+  // --- grid / height field ---
+  const N=54, SIZE=6;
+  const gx=[], gz=[];
+  for(let i=0;i<N;i++){ const t=-SIZE/2+SIZE*i/(N-1); gx[i]=t; gz[i]=t; }
+  function hash(x,y){ const n=Math.sin(x*127.1+y*311.7)*43758.5453; return n-Math.floor(n); }
+  function vnoise(x,y){ const xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi;
+    const tl=hash(xi,yi),tr=hash(xi+1,yi),bl=hash(xi,yi+1),br=hash(xi+1,yi+1);
+    const u=xf*xf*(3-2*xf),v=yf*yf*(3-2*yf);
+    return (tl*(1-u)+tr*u)*(1-v)+(bl*(1-u)+br*u)*v; }
+  function terrain(x,z){ let n=0,amp=1,freq=0.42,sum=0;
+    for(let o=0;o<4;o++){ n+=vnoise((x+40)*freq,(z+40)*freq)*amp; sum+=amp; amp*=0.5; freq*=2.1; }
+    n/=sum; const r=Math.sqrt(x*x+z*z)/(SIZE*0.5); const fall=Math.max(0,1-r*0.55);
+    return (n-0.42)*1.75*fall; }
+  const baseY=new Float32Array(N*N);
+  for(let i=0;i<N;i++)for(let j=0;j<N;j++) baseY[i*N+j]=terrain(gx[i],gz[j]);
+
+  // --- lower shadow plane (asset風) ---
+  const bp=new THREE.Mesh(new THREE.PlaneGeometry(SIZE*0.94,SIZE*0.94),
+    new THREE.MeshBasicMaterial({color:0xD9D7F0,transparent:true,opacity:0.45}));
+  bp.rotation.x=-Math.PI/2; bp.position.y=-0.62; scene.add(bp);
+
+  // --- wireframe grid lines ---
+  const segCount=2*N*(N-1);
+  const positions=new Float32Array(segCount*2*3);
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(positions,3));
+  const mat=new THREE.LineBasicMaterial({color:0x7C78D4,transparent:true,opacity:0.82});
+  scene.add(new THREE.LineSegments(geo,mat));
+
+  const yArr=new Float32Array(N*N);
+  function writePositions(){
+    let p=0;
+    for(let j=0;j<N;j++)for(let i=0;i<N-1;i++){
+      positions[p++]=gx[i];   positions[p++]=yArr[i*N+j];     positions[p++]=gz[j];
+      positions[p++]=gx[i+1]; positions[p++]=yArr[(i+1)*N+j]; positions[p++]=gz[j];
+    }
+    for(let i=0;i<N;i++)for(let j=0;j<N-1;j++){
+      positions[p++]=gx[i]; positions[p++]=yArr[i*N+j];     positions[p++]=gz[j];
+      positions[p++]=gx[i]; positions[p++]=yArr[i*N+(j+1)]; positions[p++]=gz[j+1];
+    }
+    geo.attributes.position.needsUpdate=true;
+  }
+
+  // --- mouse → world position on ground ---
+  const ray=new THREE.Raycaster(), ground=new THREE.Plane(new THREE.Vector3(0,1,0),0), hit=new THREE.Vector3();
+  const mouseW={x:99,z:99}; let hover=0, hoverT=0;
+  const hero=document.getElementById('top');
+  function onMove(cx,cy){
+    const r=renderer.domElement.getBoundingClientRect();
+    const nx=((cx-r.left)/r.width)*2-1, ny=-((cy-r.top)/r.height)*2+1;
+    ray.setFromCamera({x:nx,y:ny},cam);
+    if(ray.ray.intersectPlane(ground,hit)){ mouseW.x=hit.x; mouseW.z=hit.z; hoverT=1; }
+  }
+  hero.addEventListener('pointermove',e=>onMove(e.clientX,e.clientY));
+  hero.addEventListener('pointerleave',()=>hoverT=0);
+
+  // --- animate ---
+  let t=0;
+  function frame(){
+    t+=0.016; hover+=(hoverT-hover)*0.06;
+    for(let i=0;i<N;i++)for(let j=0;j<N;j++){
+      const x=gx[i], z=gz[j];
+      let y=baseY[i*N+j] + 0.05*Math.sin(x*1.3+z*1.1+t*0.8);   // ゆるやかな待機モーション
+      const dx=x-mouseW.x, dz=z-mouseW.z, dd=dx*dx+dz*dz, R=1.5;
+      const g=Math.exp(-dd/(R*R));
+      const ripple=Math.sin(Math.sqrt(dd)*3.0 - t*4.2);
+      y += hover*g*(0.85*ripple+0.55);                         // カーソル周辺が盛り上がり波打つ
+      yArr[i*N+j]=y;
+    }
+    writePositions();
+    renderer.render(scene,cam);
+    requestAnimationFrame(frame);
+  }
+  frame();
+
+  addEventListener('resize',()=>{
+    W=host.clientWidth; H=host.clientHeight; if(!W||!H) return;
+    aspect=W/H; cam.left=-d*aspect; cam.right=d*aspect; cam.top=d; cam.bottom=-d; cam.updateProjectionMatrix();
+    renderer.setSize(W,H,false);
+  });
+})();
+</script>
+</body>
+</html>
