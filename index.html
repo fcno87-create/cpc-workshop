@@ -159,6 +159,8 @@
   @keyframes pulse-live{0%{box-shadow:0 0 0 0 rgba(90,209,155,.6)}70%{box-shadow:0 0 0 8px rgba(90,209,155,0)}100%{box-shadow:0 0 0 0 rgba(90,209,155,0)}}
   /* Zoom公開中は応募fabを隠す（両方出したい場合はこの2行を消す） */
   body.zoom-live #fab{display:none}
+  /* 終了後は応募fabも出さない */
+  body.event-ended #fab{display:none}
   @media(max-width:560px){.fab{font-size:14px;padding:12px 18px;right:12px;bottom:12px}}
 
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.signal path{stroke-dashoffset:0}.hero .word,.eyebrow,.hero h2,.herometa,.scrollcue,.hero-art{opacity:1;transform:none}}
@@ -309,6 +311,7 @@ const CONFIG = {
   applyUrl: "https://forms.gle/eBYMkyTTLbkBhbLS6",       // 申込フォーム
   zoomUrl:  "https://ritsumei-ac-jp.zoom.us/j/88074771328", // 当日のZoom
   zoomOpenAt: "2026-08-25T09:30:00+09:00",              // この日時以降「Zoomに参加する」ボタンを表示
+  zoomCloseAt: "2026-08-25T19:00:00+09:00",             // この日時でZoomボタンを終了（以降は応募ボタンも非表示）
 
   speakers: [
     { time:"10:30–11:30", photo:"maruyama.jpg", mono:"RM",
@@ -366,18 +369,34 @@ document.getElementById('ttnote').textContent = CONFIG.timetableNote;
 (function(){const b=document.getElementById('applybtn');b.href=CONFIG.applyUrl;if(/^https?:/.test(CONFIG.applyUrl)){b.target="_blank";b.rel="noopener";}})();
 (function(){const fab=document.getElementById('fab');if(!fab)return;fab.href=CONFIG.applyUrl;if(/^https?:/.test(CONFIG.applyUrl)){fab.target="_blank";fab.rel="noopener";}const ap=document.getElementById('apply');if(ap&&'IntersectionObserver'in window){new IntersectionObserver(es=>es.forEach(e=>fab.classList.toggle('hide',e.isIntersecting)),{threshold:.2}).observe(ap);}})();
 
-// Zoom参加ボタン（zoomOpenAt 以降に自動表示・地形とは独立）
+// Zoom参加ボタン（zoomOpenAt〜zoomCloseAt の間だけ表示・地形とは独立）
 (function(){
   const zb=document.getElementById('zoombtn'); if(!zb) return;
+  const fab=document.getElementById('fab');
   if(CONFIG.zoomUrl){ zb.href=CONFIG.zoomUrl; }
   const openAt=new Date(CONFIG.zoomOpenAt);
+  const closeAt=CONFIG.zoomCloseAt ? new Date(CONFIG.zoomCloseAt) : null;
   function check(){
-    if(!isNaN(openAt) && new Date()>=openAt){
+    const now=new Date();
+    const afterOpen  = !isNaN(openAt)  && now>=openAt;
+    const afterClose = closeAt && !isNaN(closeAt) && now>=closeAt;
+    if(afterOpen && !afterClose){
+      // 開催中：Zoomボタン表示・応募fabは隠す
       zb.style.display='inline-flex';
       document.body.classList.add('zoom-live');
+      document.body.classList.remove('event-ended');
+    }else if(afterClose){
+      // 終了後：Zoomボタンも応募fabも出さない
+      zb.style.display='none';
+      document.body.classList.remove('zoom-live');
+      document.body.classList.add('event-ended');
+    }else{
+      // 開催前：通常（応募fabのみ）
+      zb.style.display='none';
+      document.body.classList.remove('zoom-live','event-ended');
     }
   }
-  check(); setInterval(check, 30000);   // 30秒ごとに判定（開いたままでも当日切り替わる）
+  check(); setInterval(check, 30000);   // 30秒ごとに判定
 })();
 
 document.getElementById('fields').innerHTML = CONFIG.fields.map(f=>`<span>${f}</span>`).join('');
