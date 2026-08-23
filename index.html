@@ -147,9 +147,18 @@
   .linklist a:hover{border-color:var(--peri);color:var(--peri)}
 
   footer{border-top:1px solid var(--hair);padding:34px 26px;text-align:center;font-family:"Space Grotesk",sans-serif;font-size:11px;letter-spacing:.1em;color:var(--ink-soft)}
+
+  /* 浮遊ボタン（応募・Zoom共通ベース） */
   .fab{position:fixed;right:16px;bottom:16px;z-index:200;display:inline-flex;align-items:center;gap:8px;font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;font-size:15px;background:var(--peri);color:#fff;padding:13px 22px;border-radius:100px;box-shadow:0 10px 26px -6px rgba(28,43,71,.5);transition:opacity .4s,transform .35s,background .35s}
   .fab:hover{background:var(--ink);transform:translateY(-2px)}
   .fab.hide{opacity:0;pointer-events:none;transform:translateY(12px)}
+  /* Zoom参加ボタン（当日表示）: 濃紺＋ライブ点滅ドット */
+  .fab-zoom{background:var(--ink)}
+  .fab-zoom:hover{background:#122038}
+  .fab .live{width:9px;height:9px;border-radius:50%;background:#5AD19B;animation:pulse-live 1.6s infinite}
+  @keyframes pulse-live{0%{box-shadow:0 0 0 0 rgba(90,209,155,.6)}70%{box-shadow:0 0 0 8px rgba(90,209,155,0)}100%{box-shadow:0 0 0 0 rgba(90,209,155,0)}}
+  /* Zoom公開中は応募fabを隠す（両方出したい場合はこの2行を消す） */
+  body.zoom-live #fab{display:none}
   @media(max-width:560px){.fab{font-size:14px;padding:12px 18px;right:12px;bottom:12px}}
 
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.signal path{stroke-dashoffset:0}.hero .word,.eyebrow,.hero h2,.herometa,.scrollcue,.hero-art{opacity:1;transform:none}}
@@ -158,6 +167,7 @@
 <body>
 <div class="cursor" id="cursor"></div>
 <a class="fab" id="fab" href="#">応募する →</a>
+<a class="fab fab-zoom" id="zoombtn" style="display:none" href="#" target="_blank" rel="noopener"><span class="live"></span>Zoomに参加する</a>
 
 <nav id="nav">
   <a href="#top" class="brand">CPC WORKSHOP 2026</a>
@@ -283,12 +293,12 @@
 /* =====================================================================
    ▼▼▼ 毎年ここだけ編集すればOK ▼▼▼
 
-   ● リンクの足し方（重要）：
-     - 外部サイトへのリンク → links 配列に { label:"表示名", url:"https://…" } を足すだけ
-     - ページ内の別セクションへ飛ばす → url を "#concept" のように # ＋セクションIDに
-     - 実在URL（http/https）は自動で別タブ表示になります
-   ● 過去回を残す → archive 配列の先頭に1件足す（過去一覧が自動で伸びます）
+   ● リンクの足し方：links 配列に { label:"表示名", url:"https://…" } を足す
+     - ページ内へ飛ばす → url を "#concept" のように # ＋セクションIDに
+   ● 過去回を残す → archive 配列の先頭に1件足す
    ● 写真を入れる → speakers の photo に画像ファイル名（同じフォルダに置く）
+   ● タイムテーブル → timetable 配列を編集（時刻未定は time:"TBD" + tbd:true）
+   ● 当日のZoom → zoomUrl にURL、zoomOpenAt に「ボタンを出す日時」を設定
 ===================================================================== */
 const CONFIG = {
   year: 2026,
@@ -296,7 +306,9 @@ const CONFIG = {
   date: "2026-08-25T10:30:00+09:00",   // カウントダウン基準（開始時刻は仮に10:30）
   dateLabel: "8 / 25 (火)",
   venue: "Online・Zoom",
-  applyUrl: "https://forms.gle/eBYMkyTTLbkBhbLS6",   // ← 申込フォーム
+  applyUrl: "https://forms.gle/eBYMkyTTLbkBhbLS6",       // 申込フォーム
+  zoomUrl:  "https://ritsumei-ac-jp.zoom.us/j/88074771328", // 当日のZoom
+  zoomOpenAt: "2026-08-25T09:30:00+09:00",              // この日時以降「Zoomに参加する」ボタンを表示
 
   speakers: [
     { time:"10:30–11:30", photo:"maruyama.jpg", mono:"RM",
@@ -308,17 +320,15 @@ const CONFIG = {
     // ← 登壇者を追加するときはここに { … } を足す
   ],
 
-  // 確定している枠だけ。全体スケジュールが未定なので tbd:true の行で「準備中」を表示
   timetable: [
-    { time:"TBD", title:"開会挨拶：堀江 孝文", note:"", tbd:true },    
+    { time:"TBD", title:"開会挨拶：堀江 孝文", note:"", tbd:true },
     { time:"10:30–11:30", title:"招待講演①：丸山 隆一", note:"科学コミュニケーターによる、非研究者のためのSEST/CPC解題" },
     { time:"11:40–12:40", title:"招待講演②：林 祐輔", note:"LLMエージェントとCPC：AGI誕生後の記号の行方を考える" },
     { time:"TBD", title:"学生発表：岡本 晃朋", note:"CPCとAgency", tbd:true },
     { time:"TBD", title:"学生発表：進藤 稜真", note:"Debate or Vote: Which Yields Better Decisions in Multi-Agent Large Language Models?", tbd:true },
     { time:"TBD", title:"学生発表：久保田 はな", note:"制度化概念と記号創発システム論", tbd:true },
-    { time:"TBD", title:"学生セッション ほか", note:"", tbd:true },
   ],
-  timetableNote: "全体スケジュール（開始時刻・学生セッション等）は準備中です。登壇者の追加に合わせて随時更新します。",
+  timetableNote: "全体スケジュール（開始時刻・順番等）は準備中です。発表の確定に合わせて随時更新します。",
 
   fields: ["言語創発","記号創発","言語進化","AIアラインメント","認知発達ロボティクス","マルチエージェントシステム","科学発見の自動化","記号接地問題","記号論／プラグマティズム","ネオ・サイバネティクス","法／倫理／規範システム","協力行動の数理","情報の経済学","人工生命","計算論的精神医学","心の哲学","科学哲学","計算言語学"],
 
@@ -330,8 +340,6 @@ const CONFIG = {
 
   orgName: "CPC Student Workshop 運営委員会",
 
-  // ▼ 昨年度の実行委員名簿をここに貼ってください（role=役職 / name=氏名 / affil=所属 / url=任意リンク）
-  //   例: { role:"実行委員長", name:"○○ ○○", affil:"○○大学" },
   committee: [
     { role:"実行委員長", name:"堀江 孝文", affil:"京都大学" },
     { role:"副実行委員長", name:"片岩 拓也", affil:"静岡大学", url:"https://hosi121.github.io/portfolio/" },
@@ -351,18 +359,26 @@ document.getElementById('h-concept').textContent = CONFIG.concept;
 document.getElementById('h-date').textContent = CONFIG.dateLabel;
 document.getElementById('h-venue').textContent = CONFIG.venue;
 document.getElementById('d-date').textContent = CONFIG.dateLabel;
+document.getElementById('org-name').textContent = CONFIG.orgName;
+document.getElementById('ttnote').textContent = CONFIG.timetableNote;
+
+// 応募fab / 応募ボタン
 (function(){const b=document.getElementById('applybtn');b.href=CONFIG.applyUrl;if(/^https?:/.test(CONFIG.applyUrl)){b.target="_blank";b.rel="noopener";}})();
 (function(){const fab=document.getElementById('fab');if(!fab)return;fab.href=CONFIG.applyUrl;if(/^https?:/.test(CONFIG.applyUrl)){fab.target="_blank";fab.rel="noopener";}const ap=document.getElementById('apply');if(ap&&'IntersectionObserver'in window){new IntersectionObserver(es=>es.forEach(e=>fab.classList.toggle('hide',e.isIntersecting)),{threshold:.2}).observe(ap);}})();
-document.getElementById('org-name').textContent = CONFIG.orgName;
-const cm=CONFIG.committee||[];
-document.getElementById('committee-list').innerHTML = cm.length
-  ? cm.map(m=>{
-      const ext=m.url&&/^https?:/.test(m.url);
-      const tag=ext?'a':'div', attr=ext?`href="${m.url}" target="_blank" rel="noopener"`:'';
-      return `<${tag} class="m${ext?' has-link':''}" ${attr}><div class="r">${m.role||''}</div><div class="n">${m.name}${ext?'<span class="visit">HP ↗</span>':''}</div>${m.affil?`<div class="a">${m.affil}</div>`:''}</${tag}>`;
-    }).join('')
-  : '<p style="color:var(--ink-soft);font-size:14px">※ 実行委員名簿は準備中です。</p>';
-document.getElementById('ttnote').textContent = CONFIG.timetableNote;
+
+// Zoom参加ボタン（zoomOpenAt 以降に自動表示・地形とは独立）
+(function(){
+  const zb=document.getElementById('zoombtn'); if(!zb) return;
+  if(CONFIG.zoomUrl){ zb.href=CONFIG.zoomUrl; }
+  const openAt=new Date(CONFIG.zoomOpenAt);
+  function check(){
+    if(!isNaN(openAt) && new Date()>=openAt){
+      zb.style.display='inline-flex';
+      document.body.classList.add('zoom-live');
+    }
+  }
+  check(); setInterval(check, 30000);   // 30秒ごとに判定（開いたままでも当日切り替わる）
+})();
 
 document.getElementById('fields').innerHTML = CONFIG.fields.map(f=>`<span>${f}</span>`).join('');
 
@@ -392,6 +408,15 @@ document.getElementById('arch').innerHTML = CONFIG.archive.map(a=>{
     <div class="yr">${a.year}</div>
     <div class="mid"><div class="ed">${a.edition}</div><div class="sp">招待講演：${a.speakers}<br>${a.note}</div></div>
     <div class="go">VIEW →</div></a>`;}).join('');
+
+const cm=CONFIG.committee||[];
+document.getElementById('committee-list').innerHTML = cm.length
+  ? cm.map(m=>{
+      const ext=m.url&&/^https?:/.test(m.url);
+      const tag=ext?'a':'div', attr=ext?`href="${m.url}" target="_blank" rel="noopener"`:'';
+      return `<${tag} class="m${ext?' has-link':''}" ${attr}><div class="r">${m.role||''}</div><div class="n">${m.name}${ext?'<span class="visit">HP ↗</span>':''}</div>${m.affil?`<div class="a">${m.affil}</div>`:''}</${tag}>`;
+    }).join('')
+  : '<p style="color:var(--ink-soft);font-size:14px">※ 実行委員名簿は準備中です。</p>';
 
 document.getElementById('links').innerHTML = CONFIG.links.map(l=>{
   const ext = l.url && l.url!=='#' && /^https?:/.test(l.url);
@@ -449,7 +474,6 @@ tick();setInterval(tick,1000);
   const cam=new THREE.OrthographicCamera(-d*aspect,d*aspect,d,-d,0.1,100);
   cam.position.set(8,6.4,8); cam.lookAt(0,0,0);
 
-  // --- grid / height field ---
   const N=54, SIZE=6;
   const gx=[], gz=[];
   for(let i=0;i<N;i++){ const t=-SIZE/2+SIZE*i/(N-1); gx[i]=t; gz[i]=t; }
@@ -465,12 +489,10 @@ tick();setInterval(tick,1000);
   const baseY=new Float32Array(N*N);
   for(let i=0;i<N;i++)for(let j=0;j<N;j++) baseY[i*N+j]=terrain(gx[i],gz[j]);
 
-  // --- lower shadow plane (asset風) ---
   const bp=new THREE.Mesh(new THREE.PlaneGeometry(SIZE*0.94,SIZE*0.94),
     new THREE.MeshBasicMaterial({color:0xD9D7F0,transparent:true,opacity:0.45}));
   bp.rotation.x=-Math.PI/2; bp.position.y=-0.62; scene.add(bp);
 
-  // --- wireframe grid lines ---
   const segCount=2*N*(N-1);
   const positions=new Float32Array(segCount*2*3);
   const geo=new THREE.BufferGeometry();
@@ -492,7 +514,6 @@ tick();setInterval(tick,1000);
     geo.attributes.position.needsUpdate=true;
   }
 
-  // --- mouse → world position on ground ---
   const ray=new THREE.Raycaster(), ground=new THREE.Plane(new THREE.Vector3(0,1,0),0), hit=new THREE.Vector3();
   const mouseW={x:99,z:99}; let hover=0, hoverT=0;
   const hero=document.getElementById('top');
@@ -505,17 +526,16 @@ tick();setInterval(tick,1000);
   hero.addEventListener('pointermove',e=>onMove(e.clientX,e.clientY));
   hero.addEventListener('pointerleave',()=>hoverT=0);
 
-  // --- animate ---
   let t=0;
   function frame(){
     t+=0.016; hover+=(hoverT-hover)*0.06;
     for(let i=0;i<N;i++)for(let j=0;j<N;j++){
       const x=gx[i], z=gz[j];
-      let y=baseY[i*N+j] + 0.05*Math.sin(x*1.3+z*1.1+t*0.8);   // ゆるやかな待機モーション
+      let y=baseY[i*N+j] + 0.05*Math.sin(x*1.3+z*1.1+t*0.8);
       const dx=x-mouseW.x, dz=z-mouseW.z, dd=dx*dx+dz*dz, R=1.5;
       const g=Math.exp(-dd/(R*R));
       const ripple=Math.sin(Math.sqrt(dd)*3.0 - t*4.2);
-      y += hover*g*(0.85*ripple+0.55);                         // カーソル周辺が盛り上がり波打つ
+      y += hover*g*(0.85*ripple+0.55);
       yArr[i*N+j]=y;
     }
     writePositions();
