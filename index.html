@@ -305,7 +305,7 @@
 const CONFIG = {
   year: 2026,
   concept: "次世代研究者のための研究ワークショップ",
-  date: "2026-08-25T10:30:00+09:00",   // カウントダウン基準（開始時刻は仮に10:30）
+  date: "2026-08-25T10:00:00+09:00",   // カウントダウン基準
   dateLabel: "8 / 25 (火)",
   venue: "Online・Zoom",
   applyUrl: "https://forms.gle/eBYMkyTTLbkBhbLS6",       // 申込フォーム
@@ -324,14 +324,29 @@ const CONFIG = {
   ],
 
   timetable: [
-    { time:"TBD", title:"開会挨拶：堀江 孝文", note:"", tbd:true },
+    { time:"9:50", title:"開場", note:"" },
+    { time:"10:00–10:30", title:"開会のあいさつ・開会講演：堀江 孝文（京都大学）", note:"" },
     { time:"10:30–11:30", title:"招待講演①：丸山 隆一", note:"科学コミュニケーターによる、非研究者のためのSEST/CPC解題" },
+    { time:"11:30–11:40", title:"休憩", note:"" },
     { time:"11:40–12:40", title:"招待講演②：林 祐輔", note:"LLMエージェントとCPC：AGI誕生後の記号の行方を考える" },
-    { time:"TBD", title:"学生発表：岡本 晃朋", note:"CPCとAgency", tbd:true },
-    { time:"TBD", title:"学生発表：進藤 稜真", note:"Debate or Vote: Which Yields Better Decisions in Multi-Agent Large Language Models?", tbd:true },
-    { time:"TBD", title:"学生発表：久保田 はな", note:"制度化概念と記号創発システム論", tbd:true },
+    { time:"12:40–13:40", title:"昼休憩", note:"" },
+    { time:"", title:"セッション①「記号創発・社会規範」", note:"司会：岡本 晃朋" },
+    { time:"13:40–14:10", title:"尾本 晴海（京都大学）", note:"創発言語の評価戦略" },
+    { time:"14:10–14:40", title:"久保田 はな（立命館大学）", note:"制度化概念の記号創発システム論への拡張の条件" },
+    { time:"14:40–15:10", title:"野村 健太郎（大阪大学）", note:"能動的推論に基づく社会規範形成および創造性のモデル化" },
+    { time:"15:10–15:20", title:"休憩", note:"" },
+    { time:"", title:"セッション②「集合知・エージェンシー」", note:"司会：堀江 孝文" },
+    { time:"15:20–15:50", title:"岡本 晃朋（同志社大学）", note:"CPCとAgency" },
+    { time:"15:50–16:20", title:"進藤 稜真（京都大学）", note:"Debate or Vote: Which Yields Better Decisions in Multi-Agent Large Language Models?" },
+    { time:"16:20–16:50", title:"星野 将来（放送大学）", note:"タイトル未定" },
+    { time:"16:50–17:00", title:"休憩", note:"" },
+    { time:"", title:"セッション③「知覚・意識」", note:"司会：岡本 晃朋" },
+    { time:"17:00–17:30", title:"移川 元規（京都大学）", note:"タイトル未定" },
+    { time:"17:30–18:00", title:"西本 翔裕（東京大学）", note:"意識の理論の説明領域のマッピング" },
+    { time:"18:00–18:15", title:"閉会のあいさつ：堀江 孝文", note:"" },
+    { time:"18:20–19:00", title:"若手の会発足について", note:"" },
   ],
-  timetableNote: "全体スケジュール（開始時刻・順番等）は準備中です。発表の確定に合わせて随時更新します。",
+  timetableNote: "一部の発表タイトルは未定です。確定に合わせて随時更新します。",
 
   fields: ["言語創発","記号創発","言語進化","AIアラインメント","認知発達ロボティクス","マルチエージェントシステム","科学発見の自動化","記号接地問題","記号論／プラグマティズム","ネオ・サイバネティクス","法／倫理／規範システム","協力行動の数理","情報の経済学","人工生命","計算論的精神医学","心の哲学","科学哲学","計算言語学"],
 
